@@ -47,7 +47,7 @@ router.get('/:stopId/times', function(req, res) {
 });
 
 function addEstimates(old, cb){
-  rest.get(API_ENDPOINT + 'stops/' + old.number + '/estimates?apikey=' + process.env.TRANSLINK_KEY).on('complete', function (data) {
+  rest.get(API_ENDPOINT + 'stops/' + old.stop + '/estimates?apikey=' + process.env.TRANSLINK_KEY).on('complete', function (data) {
     data = data.NextBuses.NextBus;
     var out = [];
     for(var i = 0; i < data.length; i++){
