@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
     data = data.Buses.Bus;
     for(var i = 0; i < data.length; i++){
       data[i] = {
-        'number': trimBus(data[i].RouteNo[0]),
+        'bus': trimBus(data[i].RouteNo[0]),
         'direction': data[i].Direction[0],
         'destination': data[i].Destination[0],
         'lat': data[i].Latitude[0],

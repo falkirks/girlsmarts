@@ -19,7 +19,7 @@ router.get('/:stopId', function(req, res) {
 
       // GENERATE OUR STATIC DATA
       data = {
-        'number': data.Stop.StopNo[0],
+        'stop': data.Stop.StopNo[0],
         'name': data.Stop.Name[0],
         'accessible': data.Stop.WheelchairAccess[0] === 1,
         'street': data.Stop.OnStreet[0],
@@ -51,15 +51,14 @@ function addEstimates(old, cb){
     data = data.NextBuses.NextBus;
     var out = [];
     for(var i = 0; i < data.length; i++){
-      console.log("hey");
       var route = {
-        'number': trimBus(data[i].RouteNo[0]),
+        'bus': trimBus(data[i].RouteNo[0]),
         'direction': data[i].Direction[0]
       };
       var next = data[i].Schedules[0].Schedule;
       for(var j = 0; j < next.length; j++){
           out.push({
-            'number': route.number,
+            'bus': route.number,
             'direction': route.direction,
             'destination': next[j].Destination[0],
             'minutes': Number(next[j].ExpectedCountdown[0])
