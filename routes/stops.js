@@ -58,7 +58,7 @@ function addEstimates(old, cb){
       var next = data[i].Schedules[0].Schedule;
       for(var j = 0; j < next.length; j++){
           out.push({
-            'bus': route.number,
+            'bus': route.bus,
             'direction': route.direction,
             'destination': next[j].Destination[0],
             'minutes': Number(next[j].ExpectedCountdown[0])
