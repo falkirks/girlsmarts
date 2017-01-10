@@ -15,6 +15,7 @@ router.get('/:stopId', function(req, res) {
     rest.get(API_ENDPOINT + 'stops/' + req.params.stopId + '?apikey=' + process.env.TRANSLINK_KEY).on('complete', function (data) {
       if (data.Stop == null) {
         res.json({"error": "An error occured. Maybe the stop doesn't exist?"});
+        return;
       }
 
       // GENERATE OUR STATIC DATA
