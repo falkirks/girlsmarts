@@ -1,0 +1,22 @@
+
+
+  <h1>Data</h1>
+  <div id="console"></div>
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://girlsmarts.herokuapp.com');
+    socket.on('run', function (data) {
+      var div = document.getElementById('console');
+
+      div.innerHTML = div.innerHTML + '<br>Run start: ' + data.name + " : " + data.id;
+      socket.emit('my other event', { my: 'data' });
+    });
+    socket.on('done', function (data) {
+      var div = document.getElementById('console');
+
+      div.innerHTML = div.innerHTML + '<br>Run complete: ' + data.name + " : " + data.id;
+    });
+
+  </script>

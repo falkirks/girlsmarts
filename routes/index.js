@@ -6,5 +6,9 @@ var router = express.Router();
 router.get('/', function(req, res) {
   res.render('index', { title: 'Fluffy Translink API' });
 });
+router.get('/:linkId', function(req, res) {
+  res.render('index', { title: 'Fluffy Translink API',
+                        linkId: req.params.linkId});
+});
 
 module.exports = router;
