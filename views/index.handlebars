@@ -1,4 +1,44 @@
 
 
-  <h1>Hello world!</h1>
-  <p>This is an API instance for GIRLsmarts4tech 2017 programming workshop.</p>
+  <h1>Hello{{#if name}} {{/if}}{{name}}!</h1>
+  <p>Thanks for particpating in our programming workshop. We had a lot of fun and we hope you did too.</p>
+  <p>If you would like to continue working on your programming skills, we have created a list of further activties you can do with TouchDevelop.</p>
+
+  <div class="box">
+    <h3>Create your own TouchDevelop account.</h3>
+    <p>In order to complete some of the additional activities, you will need your own TouchDevelop account. You can make one really quickly using a Facebook, Twitter, Google, or Microsoft account. <b><a href="https://www.touchdevelop.com/app/#signin">Sign up now.</a></b></p>
+  </div>
+
+  {{#if name}}
+  <div class="box">
+    <h3>Continue working on the bus app.</h3>
+    <p>There were quite a few tasks to complete in our activity. If you didn't manage to get through all of them, you can continue working on it now. Even if you did finish, you can try to think of something new to add. <b><a href="https://www.touchdevelop.com/{{linkId}}">Access your saved work.</a> </b></p>
+    <p><i>When you go to your saved work, click the "edit" button to continue working on it.</i></p>
+  </div>
+  {{else}}
+  <div class="box">
+    <h3>Try making the bus app again.</h3>
+    <p>Try starting from scratch and working your way through the bus app again. Maybe you will think of a new idea for your code? <b><a href="https://www.touchdevelop.com/ldxyrd">Access the starter file.</a></b></p>
+    <p><i>When you go to the starter, click the "edit" button to start working on it.</i></p>
+  </div>
+  {{/if}}
+
+  <div class="box">
+    <h3>Make some changes to the tutorial code.</h3>
+    <p>If you enjoyed making the oracle, you can continue working on it by adding your own ideas or some from the list below.</p>
+    <ul>
+      <li>Idea 1</li>
+      <li>Idea 2</li>
+      <li>Idea 3</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Try other TouchDevelop tutorials.</h3>
+    <p>There is a whole library of TouchDevelop tutorials you can access made by programmers from around the work. Here is a list of some of our favoruites</p>
+    <ul>
+      <li>Idea 1</li>
+      <li>Idea 2</li>
+      <li>Idea 3</li>
+    </ul>
+  </div>
