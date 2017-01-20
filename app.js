@@ -21,10 +21,6 @@ var index = require('./routes/index');
 var stops = require('./routes/stops');
 var buses = require('./routes/buses');
 
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-
 var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -47,9 +43,9 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 app.use('/stops', stops);
 app.use('/buses', buses);
+app.use('/', index);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,18 +81,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.get('/fun', function(req, res) {
-  res.render('fun', {});
-});
-app.get('/data/run/:name/:id', function(req, res) {
-  io.emit('run', { name: req.params.name, id: req.params.id});
-});
-app.get('/data/done/:name/:id', function(req, res) {
-  io.emit('done', { name: req.params.name, id: req.params.id});
-});
-
-io.on('connection', function (socket) {
-  console.log("connect");
-});
 
 module.exports = app;

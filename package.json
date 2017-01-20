@@ -18,8 +18,7 @@
     "forever": "^0.15.3",
     "morgan": "^1.6.1",
     "restler": "^3.4.0",
-    "serve-favicon": "^2.3.0",
-    "socket.io": "^1.7.2"
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
