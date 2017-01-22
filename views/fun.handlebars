@@ -1,5 +1,14 @@
-<h1>Data</h1>
-<div id="console"></div>
+<h1>Data stuff!</h1>
+
+<div class="box">
+<h3>Tutorial progress</h3>
+  <ul id="dataList"></ul>
+</div>
+
+<div class="box">
+  <h3>API calls</h3>
+  <div id="console"></div>
+</div>
 
 
 <script src="/socket.io/socket.io.js"></script>
@@ -36,6 +45,23 @@
         div.innerHTML = div.innerHTML + '<br><span style="color: red"> ERROR: Download buses for ' + data.ref + '</span>';
         break;
     }
+  });
+  socket.on('tutorial', function (data) {
+    console.log(data);
+    var e = document.getElementById(data.anonid);
+    if(e == null){
+        e = document.createElement('li');
+        e.setAttribute('id', data.anonid);
+        document.getElementById('dataList').appendChild(e);
+    }
+    var set = "";
+    if(data.completed){
+        set += '<span style="color: green">COMPLETED!</span>';
+    }
+    else{
+        set += data.index + "/" + data.total;
+    }
+    e.innerHTML = set;
   });
 
 </script>
