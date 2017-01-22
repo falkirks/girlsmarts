@@ -1,22 +1,41 @@
+<h1>Data</h1>
+<div id="console"></div>
 
 
-  <h1>Data</h1>
-  <div id="console"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:3000');
+  var calls = 0;
 
+  socket.on('api', function (data) {
+    calls++;
+    var div = document.getElementById('console');
+    switch (data.type) {
+      case "stops":
+        div.innerHTML = div.innerHTML + '<br>API: Download stop data for ' + data.stop;
+        break;
+      case "allbuses":
+        div.innerHTML = div.innerHTML + '<br>API: Download all buses';
+        break;
+      case "buses":
+        div.innerHTML = div.innerHTML + '<br>API: Download buses for ' + data.stop;
+        break;
+    }
+  });
+  socket.on('error', function (data) {
+    calls++;
+    var div = document.getElementById('console');
+    switch (data.type) {
+      case "stops":
+        div.innerHTML = div.innerHTML + '<br><span style="color: red"> ERROR: Download stop data for ' + data.ref + '</span>';
+        break;
+      case "allbuses":
+        div.innerHTML = div.innerHTML + '<br><span style="color: red"> ERROR: Download all buses</span>';
+        break;
+      case "buses":
+        div.innerHTML = div.innerHTML + '<br><span style="color: red"> ERROR: Download buses for ' + data.ref + '</span>';
+        break;
+    }
+  });
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect('http://girlsmarts.herokuapp.com');
-    socket.on('run', function (data) {
-      var div = document.getElementById('console');
-
-      div.innerHTML = div.innerHTML + '<br>Run start: ' + data.name + " : " + data.id;
-      socket.emit('my other event', { my: 'data' });
-    });
-    socket.on('done', function (data) {
-      var div = document.getElementById('console');
-
-      div.innerHTML = div.innerHTML + '<br>Run complete: ' + data.name + " : " + data.id;
-    });
-
-  </script>
+</script>

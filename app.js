@@ -10,6 +10,7 @@ global.trimBus = function(bus) {
 };
 
 var express = require('express');
+var socket_io = require( "socket.io" );
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -17,11 +18,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
 
-var index = require('./routes/index');
-var stops = require('./routes/stops');
-var buses = require('./routes/buses');
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var index = require('./routes/index')(io);
+var stops = require('./routes/stops')(io);
+var buses = require('./routes/buses')(io);
+var fun = require('./routes/fun')(io);
 
 var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
@@ -47,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/stops', stops);
 app.use('/buses', buses);
+app.use('/fun', fun);
 app.use('/', index);
 
 /// catch 404 and forward to error handler
@@ -83,5 +89,9 @@ app.use(function(err, req, res, next) {
     });
 });
 
+io.on( "connection", function( socket ) {
+  console.log( "A user connected" );
+});
 
-module.exports = app;
+
+module.exports = {app: app, server: server};
