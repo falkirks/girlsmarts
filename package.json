@@ -8,7 +8,9 @@
     "test": "mocha --recursive test",
     "test:coverage": "nyc npm test",
     "test:unit": "mocha --recursive test/middleware test/models test/routes",
-    "test:integration": "mocha --recursive test/integration"
+    "test:integration": "mocha --recursive test/integration",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "body-parser": "^1.13.3",
@@ -20,7 +22,8 @@
     "restler": "^3.4.0",
     "scrape-it": "^3.2.2",
     "serve-favicon": "^2.3.0",
-    "socket.io": "^1.7.2"
+    "socket.io": "^2.0.2",
+    "snyk": "^1.42.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -34,5 +37,6 @@
     "mocha": "^3.0.2",
     "nyc": "^10.0.0",
     "supertest": "^2.0.0"
-  }
+  },
+  "snyk": true
 }
