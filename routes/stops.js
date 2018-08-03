@@ -5,6 +5,8 @@ module.exports = function (io) {
 
   var cache = {};
 
+  var estimatesOnlyCache = {};
+
   /* GET users listing. */
   router.get('/:stopId', function(req, res) {
     if(cache[req.params.stopId] !== undefined){
@@ -55,37 +57,23 @@ module.exports = function (io) {
     }
 
   });
-  router.get('/:stopId/times', function(req, res) {
-    addEstimates({'number': req.params.stopId}, function(data){
-      res.json(data.times);
-    })
+  router.get('/:stopId/estimates', function(req, res) {
+    if(estimatesOnlyCache[req.params.stopId] !== undefined && estimatesOnlyCache[req.params.stopId].time+(1000*60*15) > Date.now()){
+      io.emit('api', {'type': "stops", "stop": req.params.stopId, "cached": true});
+      res.json(estimatesOnlyCache[req.params.stopId].data);
+    }
+    else {
+      addEstimates({stop: req.params.stopId}, function(data){
+        estimatesOnlyCache[req.params.stopId] = {data: data, time: Date.now()};
+        res.json(data);
+        io.emit('api', {'type': "stops", "stop": req.params.stopId, "cached": false});
+      })
+    }
   });
 
   function addEstimates(old, cb){
-    rest.get(API_ENDPOINT + 'stops/' + old.stop + '/estimates?apikey=' + process.env.TRANSLINK_KEY).on('complete', function (data) {
-      data = data.NextBuses.NextBus;
-      var out = [];
-      for(var i = 0; i < data.length; i++){
-        var route = {
-          'bus': trimBus(data[i].RouteNo[0]),
-          'direction': data[i].Direction[0]
-        };
-        var next = data[i].Schedules[0].Schedule;
-        for(var j = 0; j < next.length; j++){
-          out.push({
-            'bus': route.bus,
-            'direction': route.direction,
-            'destination': next[j].Destination[0],
-            'minutes': Number(next[j].ExpectedCountdown[0])
-          });
-        }
-      }
-
-      out.sort(function(a, b){
-        return a.minutes - b.minutes;
-      });
-      old.times = out;
-      cb(old);
+    rest.get(API_ENDPOINT + 'stops/' + old.stop + '/estimates?apikey=' + process.env.TRANSLINK_KEY, {headers: { 'Accept': 'Application/json' }}).on('complete', function (data) {
+      cb(data);
     });
   }
 

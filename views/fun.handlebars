@@ -1,11 +1,6 @@
 <h1>Data stuff!</h1>
 
 <div class="box">
-<h3>Tutorial progress</h3>
-  <ul id="dataList"></ul>
-</div>
-
-<div class="box">
   <h3>API calls</h3>
   <div id="console"></div>
 </div>
@@ -13,7 +8,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io.connect('http://girlsmarts.herokuapp.com');
+  var socket = io.connect('http://localhost:3000');
   var calls = 0;
 
   socket.on('api', function (data) {
@@ -21,14 +16,25 @@
     var div = document.getElementById('console');
     switch (data.type) {
       case "stops":
-        div.innerHTML = div.innerHTML + '<br>API: Download stop data for ' + data.stop;
+        if(data.cached) {
+          div.innerHTML = div.innerHTML + '<br>API: Return stop data for ' + data.stop;
+        }
+        else{
+          div.innerHTML = div.innerHTML + '<br>API: Download stop data for ' + data.stop;
+        }
         break;
       case "allbuses":
         div.innerHTML = div.innerHTML + '<br>API: Download all buses';
         break;
       case "buses":
-        div.innerHTML = div.innerHTML + '<br>API: Download buses for ' + data.stop;
+        if(data.cached) {
+          div.innerHTML = div.innerHTML + '<br>API: Return buses for ' + data.stop;
+        }
+        else{
+          div.innerHTML = div.innerHTML + '<br>API: Download buses for ' + data.stop;
+        }
         break;
+
     }
   });
   socket.on('error', function (data) {
@@ -45,23 +51,6 @@
         div.innerHTML = div.innerHTML + '<br><span style="color: red"> ERROR: Download buses for ' + data.ref + '</span>';
         break;
     }
-  });
-  socket.on('tutorial', function (data) {
-    console.log(data);
-    var e = document.getElementById(data.anonid);
-    if(e == null){
-        e = document.createElement('li');
-        e.setAttribute('id', data.anonid);
-        document.getElementById('dataList').appendChild(e);
-    }
-    var set = "";
-    if(data.completed){
-        set += '<span style="color: green">COMPLETED!</span>';
-    }
-    else{
-        set += data.index + "/" + data.total;
-    }
-    e.innerHTML = set;
   });
 
 </script>

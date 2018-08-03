@@ -2,11 +2,7 @@
 global.API_ENDPOINT = 'http://api.translink.ca/rttiapi/v1/';
 
 global.trimBus = function(bus) {
-  if (bus.charAt(0) === '0') {
-    return trimBus(bus.slice(1));
-  } else {
     return bus;
-  }
 };
 
 var express = require('express');
@@ -32,6 +28,8 @@ var env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env == 'development';
 
+process.env.TRANSLINK_KEY = 'FmmnZOJpBGzKeDFmmFWl';
+
 // view engine setup
 
 app.engine('handlebars', exphbs({
@@ -51,6 +49,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/stops', stops);
+app.use('/rttiapi/v1/stops', stops);
+app.use('/rttiapi/v1/buses', buses);
 app.use('/buses', buses);
 app.use('/fun', fun);
 app.use('/', index);
