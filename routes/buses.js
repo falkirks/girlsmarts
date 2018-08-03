@@ -30,15 +30,15 @@ module.exports = function (io) {
   });*/
 
   router.get('/', function(req, res) {
-    if(cache[req.query.stopId] !== undefined && cache[req.query.stopId].time+(1000*60*15) > Date.now()){
-      io.emit('api', {'type': "buses", "stop": req.query.stopId, "cached": true});
+    if(cache[req.query.stopNo] !== undefined && cache[req.query.stopNo].time+(1000*60*15) > Date.now()){
+      io.emit('api', {'type': "buses", "stop": req.query.stopNo, "cached": true});
       res.json(cache[req.query.stopId].data);
     }
     else {
       rest.get(API_ENDPOINT + 'buses?apikey=' + process.env.TRANSLINK_KEY + '&stopNo=' + req.query.stopNo, {headers: {'Accept': 'Application/json'}}).on('complete', function (data) {
-        cache[req.query.stopId] = {data: data, time: Date.now()};
+        cache[req.query.stopNo] = {data: data, time: Date.now()};
         res.json(data);
-        io.emit('api', {type: "buses", stop: req.query.stopId});
+        io.emit('api', {type: "buses", stop: req.query.stopNo});
       });
     }
   });
