@@ -58,7 +58,7 @@ module.exports = function (io) {
 
   });
   router.get('/:stopId/estimates', function(req, res) {
-    if(estimatesOnlyCache[req.params.stopId] !== undefined && estimatesOnlyCache[req.params.stopId].time+(1000*60*15) > Date.now()){
+    if(estimatesOnlyCache[req.params.stopId] !== undefined && estimatesOnlyCache[req.params.stopId].time+(1000*60*30) > Date.now()){
       io.emit('api', {'type': "stops", "stop": req.params.stopId, "cached": true});
       res.json(estimatesOnlyCache[req.params.stopId].data);
     }

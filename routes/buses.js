@@ -30,7 +30,7 @@ module.exports = function (io) {
   });*/
 
   router.get('/', function(req, res) {
-    if(cache[req.query.stopNo] !== undefined && cache[req.query.stopNo].time+(1000*60*15) > Date.now()){
+    if(cache[req.query.stopNo] !== undefined && cache[req.query.stopNo].time+(1000*60*30) > Date.now()){
       io.emit('api', {'type': "buses", "stop": req.query.stopNo, "cached": true});
       res.json(cache[req.query.stopId].data);
     }
